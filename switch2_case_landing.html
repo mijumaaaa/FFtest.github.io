@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLAYFULL贪玩 · Switch 2 收纳包</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #E8192C;
+    --red-dark: #B5121F;
+    --white: #FAFAFA;
+    --black: #0D0D0D;
+    --gray: #1A1A1A;
+    --gray-mid: #2E2E2E;
+    --gray-light: #888;
+    --accent: #FFE44D;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Noto Sans SC', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: overlay;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,25,44,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    color: var(--red);
+    text-decoration: none;
+  }
+
+  .nav-cta {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 10px 28px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .nav-cta:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -120px; top: -80px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,25,44,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    margin-bottom: 24px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero-title span { color: var(--red); }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--gray-light);
+    line-height: 1.8;
+    max-width: 420px;
+    margin-bottom: 36px;
+    font-weight: 300;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .price-now {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .price-was {
+    font-size: 22px;
+    color: #555;
+    text-decoration: line-through;
+  }
+
+  .price-label {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 1px;
+    background: rgba(255,228,77,0.1);
+    padding: 4px 10px;
+    border: 1px solid rgba(255,228,77,0.3);
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.4s ease both;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    padding: 16px 40px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 1px;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(232,25,44,0);
+  }
+
+  .btn-primary:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(232,25,44,0.35);
+  }
+
+  .btn-secondary {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white);
+    padding: 16px 32px;
+    font-size: 15px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--red); color: var(--red); }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    animation: fadeRight 0.7s 0.2s ease both;
+  }
+
+  .case-mockup {
+    width: 420px;
+    max-width: 100%;
+    position: relative;
+  }
+
+  .case-body {
+    width: 420px;
+    height: 200px;
+    background: linear-gradient(135deg, #F5F5F5 0%, #E8E8E8 100%);
+    border-radius: 16px;
+    border: 4px solid var(--red);
+    position: relative;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(232,25,44,0.2), inset 0 1px 0 rgba(255,255,255,0.6);
+    overflow: hidden;
+  }
+
+  .case-body::before {
+    content: '';
+    position: absolute;
+    top: -30px; left: 50%;
+    transform: translateX(-50%);
+    width: 60px; height: 60px;
+    background: var(--red);
+    border-radius: 50%;
+  }
+
+  .case-label {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    color: #999;
+  }
+
+  .badge-group {
+    position: absolute;
+    top: 20px; left: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .badge-item {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: spin 20s linear infinite;
+  }
+
+  .badge-item:nth-child(2) { animation-delay: -4s; }
+  .badge-item:nth-child(3) { animation-delay: -8s; animation-direction: reverse; }
+  .badge-item:nth-child(4) { animation-delay: -12s; }
+
+  @keyframes spin { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(8deg); } }
+
+  .glow-ring {
+    position: absolute;
+    inset: -30px;
+    border-radius: 50%;
+    border: 1px solid rgba(232,25,44,0.2);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .glow-ring:nth-child(2) { inset: -50px; animation-delay: 1s; }
+  .glow-ring:nth-child(3) { inset: -70px; animation-delay: 2s; }
+
+  @keyframes pulse { 0%,100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.08; transform: scale(1.02); } }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--gray);
+  }
+
+  .stat-item {
+    padding: 32px 24px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.2s;
+  }
+
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(232,25,44,0.05); }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--red);
+    line-height: 1;
+  }
+
+  .stat-label { font-size: 12px; color: var(--gray-light); margin-top: 4px; letter-spacing: 1px; }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+
+  .section-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 60px);
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+
+  .section-sub { font-size: 16px; color: var(--gray-light); line-height: 1.8; max-width: 560px; margin-bottom: 56px; font-weight: 300; }
+
+  /* ─── WHO IS IT FOR ─── */
+  .audience-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .audience-card {
+    background: var(--gray);
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+
+  .audience-card:hover { transform: translateY(-4px); }
+
+  .audience-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .audience-card:hover::before { transform: scaleX(1); }
+
+  .audience-icon { font-size: 36px; margin-bottom: 16px; }
+
+  .audience-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    color: var(--white);
+  }
+
+  .audience-desc { font-size: 14px; color: var(--gray-light); line-height: 1.7; }
+
+  /* ─── FEATURES ─── */
+  .features-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .feature-block {
+    background: var(--gray);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .feature-block:hover { background: var(--gray-mid); }
+
+  .feature-block.highlight { background: var(--red); }
+  .feature-block.highlight:hover { background: var(--red-dark); }
+
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 80px;
+    color: rgba(255,255,255,0.05);
+    position: absolute;
+    top: 16px; right: 24px;
+    line-height: 1;
+  }
+
+  .feature-icon { font-size: 32px; margin-bottom: 20px; }
+  .feature-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 1px; margin-bottom: 12px; }
+  .feature-desc { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; }
+  .feature-block.highlight .feature-desc { color: rgba(255,255,255,0.85); }
+
+  .feature-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    margin-top: 16px;
+  }
+
+  /* ─── COMPARISON TABLE ─── */
+  .table-wrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  thead tr { background: var(--red); }
+  thead th {
+    padding: 18px 20px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+
+  thead th:first-child { text-align: left; }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.15s;
+  }
+
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  tbody td {
+    padding: 16px 20px;
+    text-align: center;
+    color: var(--gray-light);
+    font-size: 14px;
+  }
+
+  tbody td:first-child { text-align: left; color: var(--white); font-weight: 500; }
+
+  .td-best { color: var(--red); font-weight: 700; }
+  .td-ok { color: #888; }
+  .td-bad { color: #555; }
+
+  .check { color: #4CAF50; }
+  .cross { color: #666; }
+  .warn { color: #FFB300; }
+
+  /* ─── FAQ ─── */
+  .faq-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .faq-item {
+    background: var(--gray);
+    overflow: hidden;
+  }
+
+  .faq-q {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+    user-select: none;
+    transition: color 0.2s;
+    gap: 20px;
+  }
+
+  .faq-q:hover { color: var(--red); }
+
+  .faq-arrow {
+    font-size: 20px;
+    color: var(--red);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+    font-size: 14px;
+    color: var(--gray-light);
+    line-height: 1.8;
+  }
+
+  .faq-item.open .faq-a { max-height: 200px; }
+
+  .faq-a-inner { padding: 0 32px 24px; }
+
+  /* ─── CTA BANNER ─── */
+  .cta-banner {
+    background: var(--gray);
+    border: 1px solid rgba(232,25,44,0.2);
+    padding: 80px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin: 0 48px 80px;
+  }
+
+  .cta-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(232,25,44,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .cta-sub { color: var(--gray-light); font-size: 16px; margin-bottom: 36px; position: relative; }
+
+  .cta-tags { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 36px; position: relative; }
+
+  .tag-pill {
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 6px 18px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--gray-light);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #444;
+    font-size: 12px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--red); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { margin-top: 48px; }
+    .case-body { width: 300px; height: 150px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    section { padding: 64px 24px; }
+    .audience-grid { grid-template-columns: 1fr; }
+    .features-wrap { grid-template-columns: 1fr; }
+    .cta-banner { margin: 0 24px 60px; padding: 60px 24px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">PLAYFULL</a>
+  <a href="https://item.taobao.com/item.htm?abbucket=4&id=993588969301&mi_id=0000xyCABjZVt0AzL7NynF9Nr_LsFU0YRoDLaXaDiXyOLjE&ns=1&priceTId=2147806317722535820228709e130e&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%223b18fadc8119bb980aebd994366c9af9%22%7D&xxc=taobaoSearch" target="_blank" class="nav-cta">立即购买</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">Switch 2 专属 · 量身定制</div>
+    <h1 class="hero-title">保护你的<br><span>每一场</span><br>冒险</h1>
+    <p class="hero-sub">PLAYFULL贪玩收纳包，为重度玩家而生。硬质EVA外壳 + 摇杆悬空保护，从此出门不再担心主机受损。</p>
+    <div class="hero-price-block">
+      <div class="price-now">¥159</div>
+      <div class="price-was">¥169</div>
+      <div class="price-label">券后价</div>
+    </div>
+    <div class="hero-btns">
+      <a href="https://item.taobao.com/item.htm?abbucket=4&id=993588969301&mi_id=0000xyCABjZVt0AzL7NynF9Nr_LsFU0YRoDLaXaDiXyOLjE&ns=1&priceTId=2147806317722535820228709e130e&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%223b18fadc8119bb980aebd994366c9af9%22%7D&xxc=taobaoSearch" target="_blank" class="btn-primary">🛒 立即购买</a>
+      <a href="#features" class="btn-secondary">了解详情</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="glow-ring"></div>
+    <div class="glow-ring"></div>
+    <div class="glow-ring"></div>
+    <div class="case-mockup">
+      <div class="case-body">
+        <div class="badge-group">
+          <div class="badge-item">🎮</div>
+          <div class="badge-item">⚔️</div>
+          <div class="badge-item">🍄</div>
+          <div class="badge-item">⭐</div>
+        </div>
+        <div class="case-label">PLAYFULL</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-num">100+</div>
+    <div class="stat-label">已售出</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">93%</div>
+    <div class="stat-label">店铺好评率</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">48H</div>
+    <div class="stat-label">内发货</div>
+  </div>
+  <div class="stat-item reveal">
+    <div class="stat-num">7天</div>
+    <div class="stat-label">无理由退货</div>
+  </div>
+</div>
+
+<!-- WHO IS IT FOR -->
+<section>
+  <div class="section-tag">这款适合谁</div>
+  <h2 class="section-title reveal">三类玩家，一包搞定</h2>
+  <p class="section-sub reveal">专为每天离不开Switch的重度玩家量身打造，无论哪种使用场景都有充分理由选择它。</p>
+
+  <div class="audience-grid">
+    <div class="audience-card reveal">
+      <div class="audience-icon">🚇</div>
+      <div class="audience-name">通勤族玩家</div>
+      <div class="audience-desc">每天挤地铁背包被压、碰撞。硬质外壳承压能力是软壳的3倍，主机和屏幕牢牢保护在内。</div>
+    </div>
+    <div class="audience-card reveal">
+      <div class="audience-icon">✈️</div>
+      <div class="audience-name">频繁出行玩家</div>
+      <div class="audience-desc">长途出行装备多、行李乱。多槽卡带仓 + 网格收纳袋，主机、卡带、线材一包安放，整洁有序。</div>
+    </div>
+    <div class="audience-card reveal">
+      <div class="audience-icon">🎨</div>
+      <div class="audience-name">潮玩个性玩家</div>
+      <div class="audience-desc">经典白红配色 + DIY徽章设计，让收纳包成为独一无二的个性单品，玩家圈辨识度拉满。</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="padding-top:0">
+  <div class="section-tag">产品特点</div>
+  <h2 class="section-title reveal">因为用对了技术<br>所以保护才到位</h2>
+  <p class="section-sub reveal">每一项设计都有清晰的逻辑因果，不是为了功能而功能。</p>
+
+  <div class="features-wrap">
+    <div class="feature-block highlight reveal">
+      <div class="feature-num">01</div>
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">硬质EVA外壳</div>
+      <div class="feature-desc">因为采用高密度压缩成型EVA，外壳承压能力是普通软壳的3倍以上。即便背包里的书本、水瓶大力挤压，主机屏幕依然完好无损。</div>
+      <div class="feature-tag">→ 防摔抗压</div>
+    </div>
+    <div class="feature-block reveal">
+      <div class="feature-num">02</div>
+      <div class="feature-icon">🕹️</div>
+      <div class="feature-title">摇杆悬空区</div>
+      <div class="feature-desc">因为内腔针对Switch 2摇杆高度量身定制了悬空凹槽，摇杆始终处于零压状态。从物理层面预防"摇杆漂移"，保住你的精准操控。</div>
+      <div class="feature-tag" style="background:rgba(255,255,255,0.08)">→ 零压保护</div>
+    </div>
+    <div class="feature-block reveal">
+      <div class="feature-num">03</div>
+      <div class="feature-icon">✨</div>
+      <div class="feature-title">内部软绒内衬</div>
+      <div class="feature-desc">因为内衬采用高密度超细绒布，不产生静电、不吸附灰尘颗粒。Switch 2全贴合屏幕长期使用后依然如新，无细微划痕。</div>
+      <div class="feature-tag" style="background:rgba(255,255,255,0.08)">→ 屏幕无忧</div>
+    </div>
+    <div class="feature-block reveal">
+      <div class="feature-num">04</div>
+      <div class="feature-icon">💼</div>
+      <div class="feature-title">活动宽面提手</div>
+      <div class="feature-desc">因为提手采用可拆卸宽面织带设计，手提时受力均匀分散。长时间持握不勒手，单手提携轻松自如，从广东出发48小时直达。</div>
+      <div class="feature-tag" style="background:rgba(255,255,255,0.08)">→ 舒适携带</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section style="padding-top:0">
+  <div class="section-tag">横向对比</div>
+  <h2 class="section-title reveal">和同类产品<br>对比一眼看清</h2>
+
+  <div class="table-wrap reveal">
+    <table>
+      <thead>
+        <tr>
+          <th>对比维度</th>
+          <th>PLAYFULL贪玩 ⭐</th>
+          <th>普通软壳包</th>
+          <th>通用硬壳包</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>外壳材质</td>
+          <td class="td-best">高强度EVA硬壳</td>
+          <td class="td-bad">软布 / 牛津布</td>
+          <td class="td-ok">普通EVA</td>
+        </tr>
+        <tr>
+          <td>摇杆保护</td>
+          <td class="td-best check">✅ 悬空区设计</td>
+          <td class="td-bad cross">❌ 无</td>
+          <td class="td-ok warn">⚠️ 不稳定</td>
+        </tr>
+        <tr>
+          <td>内衬材质</td>
+          <td class="td-best">柔软绒布</td>
+          <td class="td-bad">普通布料</td>
+          <td class="td-ok">普通绒布</td>
+        </tr>
+        <tr>
+          <td>卡带收纳</td>
+          <td class="td-best">多槽专属设计</td>
+          <td class="td-bad">无专属槽位</td>
+          <td class="td-ok">视情况</td>
+        </tr>
+        <tr>
+          <td>Switch 2 适配</td>
+          <td class="td-best check">✅ 量身定制</td>
+          <td class="td-bad cross">❌ 通用尺寸</td>
+          <td class="td-bad cross">❌ 通用尺寸</td>
+        </tr>
+        <tr>
+          <td>外观设计</td>
+          <td class="td-best">潮玩徽章风格</td>
+          <td class="td-bad">普通</td>
+          <td class="td-bad">普通</td>
+        </tr>
+        <tr>
+          <td>参考价格</td>
+          <td class="td-best">¥159（券后）</td>
+          <td class="td-ok">¥30–60</td>
+          <td class="td-ok">¥80–120</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding-top:0">
+  <div class="section-tag">常见问题</div>
+  <h2 class="section-title reveal">购前必看<br>五大问题解答</h2>
+
+  <div class="faq-list">
+    <div class="faq-item reveal">
+      <div class="faq-q">
+        <span>Q1：这款包能放Switch 2带底座的整机吗？</span>
+        <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">本款收纳包专为Switch 2主机本体（含Joy-Con 2手柄）设计，不包含TV底座。日常出行用主机直接放入即可，轻便够用。如需底座收纳，建议另配专用底座包。</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">
+        <span>Q2：包内摇杆真的不会被压到吗？</span>
+        <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">完全放心。内腔在摇杆对应位置做了专项悬空凹槽，主机放入后摇杆悬浮于空腔中，上盖合上后与摇杆顶端保留安全间距，物理层面杜绝压迫。</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">
+        <span>Q3：卡带槽能放多少张？充电头能放进去吗？</span>
+        <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">卡带槽设计容纳6–8张游戏卡，满足绝大多数出行需求。GaN小体积充电头可放入网格袋，普通充电线绕折后也可轻松收纳，不建议放大体积原装充电器。</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">
+        <span>Q4：外壳上的徽章是随包附赠的吗？</span>
+        <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">页面展示图中的徽章为效果演示道具，部分版本随包附赠基础徽章套装，具体以实际发货为准，建议购买前咨询客服确认赠品详情。</div>
+      </div>
+    </div>
+    <div class="faq-item reveal">
+      <div class="faq-q">
+        <span>Q5：支持7天无理由退货吗？运费谁承担？</span>
+        <span class="faq-arrow">+</span>
+      </div>
+      <div class="faq-a">
+        <div class="faq-a-inner">支持7天无理由退货，已享受退货宝服务。88VIP用户退货运费由平台承担，普通用户运费规则以实际退款页面为准。建议收货后当面验货，如有外观问题第一时间联系客服。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div class="cta-banner reveal">
+  <h2 class="cta-title">现在入手<br>券后仅 <span style="color:var(--red)">¥159</span></h2>
+  <p class="cta-sub">广东东莞发货 · 48小时内出单 · 免运费 · 超100人已购</p>
+  <div class="cta-tags">
+    <span class="tag-pill">🛡️ 硬质外壳</span>
+    <span class="tag-pill">🕹️ 摇杆悬空保护</span>
+    <span class="tag-pill">✨ 内部软绒</span>
+    <span class="tag-pill">💼 活动提手</span>
+    <span class="tag-pill">🎨 DIY徽章</span>
+  </div>
+  <a href="https://item.taobao.com/item.htm?abbucket=4&id=993588969301&mi_id=0000xyCABjZVt0AzL7NynF9Nr_LsFU0YRoDLaXaDiXyOLjE&ns=1&priceTId=2147806317722535820228709e130e&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%223b18fadc8119bb980aebd994366c9af9%22%7D&xxc=taobaoSearch" target="_blank" class="btn-primary" style="font-size:18px;padding:20px 56px">前往淘宝购买 →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 PLAYFULL贪玩 · Switch 2 收纳包导购页</span>
+  <a href="https://item.taobao.com/item.htm?abbucket=4&id=993588969301&mi_id=0000xyCABjZVt0AzL7NynF9Nr_LsFU0YRoDLaXaDiXyOLjE&ns=1&priceTId=2147806317722535820228709e130e&spm=a21n57.1.hoverItem.1&utparam=%7B%22aplus_abtest%22%3A%223b18fadc8119bb980aebd994366c9af9%22%7D&xxc=taobaoSearch" target="_blank" style="color:var(--red);text-decoration:none;font-size:12px">→ 淘宝商品链接</a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
